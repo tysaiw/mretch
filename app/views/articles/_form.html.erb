@@ -1,0 +1,28 @@
+<%= form_with(model: article, data: { turbo: false }) do |f| %>
+    <div><%= f.label :title, "標題" %> <%= f.text_field :title %></div>
+    
+    <div><%= f.label :content, "內文" %> <%= f.text_area :content %></div>
+    
+    <%= f.submit %> <% end %>
+    <hr />
+    
+    <!-- <form action="/articles" method="post" data-turbo="false">
+      <div>
+        <label for="title">標題</label>
+        <input type="text" id="title" name="cc[title]" />
+      </div>
+      <div>
+        <label for="content">內文</label>
+        <textarea name="cc[content]" id="content"></textarea>
+      </div>
+      <input
+        type="hidden"
+        name="authenticity_token"
+        id=""
+        value="<%= form_authenticity_token %>"
+      />
+    
+      <button>提交</button> -->
+    <!-- <input type="submit" value="提交" />
+    </form> -->
+    
