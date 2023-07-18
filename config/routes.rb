@@ -13,5 +13,10 @@ get"/articles/:id/edit", to: "articles#edit", as: "edit_article" #不用寫path
 patch"/articles/:id", to: "articles#update"
 delete"/articles/:id", to: "articles#destroy"
 
-
+resource :users, except: [:show, :destroy] do
+    collection do #在單數resource裡 跟 member效果相同(member無效的+id)
+        get :login
+        post :logining
+    end
+end
 end
