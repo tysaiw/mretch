@@ -17,6 +17,7 @@ resource :users, except: [:show, :destroy] do
     collection do #在單數resource裡 跟 member效果相同(member無效的+id)
         get :login
         post :logining
+        delete :logout
+        end
     end
-end
 end

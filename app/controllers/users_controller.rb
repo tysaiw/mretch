@@ -7,15 +7,18 @@ class UsersController < ApplicationController
     end
 
     def logining
+
         user = User.login(params[:user][:email], 
-                          params[:user][:password])
-    
-          if user
+                        params[:user][:password])
+
+        session[:kitty] = user.id
+
+        if user
             redirect_to root_path, notice: '登入成功'
-          else
+        else
             redirect_to login_users_path, alert: '登入失敗'
-          end    
-      end
+        end    
+    end
 
     def create
         @user = User.new(user_params)
@@ -26,7 +29,12 @@ class UsersController < ApplicationController
         end
 
     end
-    
+
+    def logout
+        session[:kitty] = nil
+        redirect_to root_path, notice: "已登出"
+    end
+
     private
         def user_params
             params.require(:user).permit(:name, :email, :password, :password_confirmation)

@@ -1,6 +1,22 @@
 class User < ApplicationRecord
     validates :password, confirmation: true
 
+      # relationships
+  has_many :articles
+
+  # u = User.find(2)
+  # u.articles -> 列出所有的文章
+  # select * from articles where user_id = 2
+
+  def display_name
+    name.presence || email.split("@").first.capitalize
+    # if name.present?
+    #   name
+    # else
+    #   email.split("@").first.capitalize
+    # end
+  end
+
     validates :email, presence: true, 
     uniqueness: true, 
     format: { 

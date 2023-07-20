@@ -1,9 +1,13 @@
 class ArticlesController < ApplicationController
-    before_action :set_article, only: [:show, :edit, :update, :destroy]
+    before_action :set_article, only: [:show]
+
+    before_action :set_user_article, only: [ :edit, :update, :destroy]
     #=before_action : set_article, except: [:index, :new, :create]
+    before_action :authenticate_user!, except: [:index, :show]
 
     def index
-        @articles = Article.all.order(id: :desc)
+        #eager loading
+        @articles = Article.includes(:user).order(id: :desc)
     end
     
     def articles
@@ -19,14 +23,15 @@ class ArticlesController < ApplicationController
     end
 
     def new
-        @article = Article.new
-        p "4"*100
-        p @article
+        @article = Article.new            
     end
 
     def create
 
-        @article = Article.new(article_params)
+        @article = current_user.articles.new(article_params)
+        #@article.user = current_user
+        #@article.user_id = current_user.id
+
 
         if @article.save
             redirect_to articles_path, notice: "文章新增成功"
@@ -69,10 +74,16 @@ class ArticlesController < ApplicationController
     private
 
     def article_params
-        params.require(:article).permit(:title, :content, :sub_title)
+        params.require(:article)
+                .permit(:title, :content, :sub_title)
+                #.merge(user: current_user, a:1, b:2)
     end
 
     def set_article
         @article = Article.find(params[:id])
+    end
+
+    def set_user_article
+        @article = current_user.articles.find(params[:id])
     end
 end
